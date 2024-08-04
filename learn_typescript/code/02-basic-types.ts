@@ -29,4 +29,18 @@ numberOrString = 'string'
 // numberOrString = true  只能是number或则string类型
 
 
+// 数组类型  
+// 数组类型(且里面每一个元素都是number类型)
+const arrOfNumber: number[] = [1, 2, 3, 4]
+arrOfNumber.push(1)
+// 类数组(拥有数组一定的属性)
+function test() {
+  // 这个arguments就是类数组，它拥有一定的属性，但他并不是真正的数组
+  console.log(arguments);
+  arguments.length
+  arguments[0]
+}
 
+// 元组
+// 元组是另一种类型的数组，他确切知道包含多少个元素，以及特定索引对应的类型（以及每个元素所对应的类型）
+let user: [string, number] = ['tony', 18]
