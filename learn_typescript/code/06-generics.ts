@@ -19,3 +19,26 @@ const swap = <T, U>(tuple: [T, U]): [U, T] => {
   return [tuple[1], tuple[0]]
 }
 const result2 = swap(['string', 123])
+
+
+// 泛型约束
+// 传入的只能是个数组(因为要使用其中的length属性(缺点:例如string或者object类型也可能会有length属性))
+const echoWithArr = <T>(arg: T[]): T[] => {
+  console.log(arg.length);
+  return arg
+}
+const arrs = echoWithArr([1, 2, 3, 4])
+
+// 传入的只要有包含length属性就可以(duck typing 鸭子类型(有什么的特征就是什么)) 
+// 通过extends关键字来对泛型传入值进行约束(传入值必须满足特定的约束条件),这里是必须包含length属性
+interface IWithLenght {
+  length: number
+}
+const echoWithLength = <T extends IWithLenght>(arg: T): T => {
+  console.log(arg.length);
+  return arg
+}
+const str = echoWithLength('string')
+const obj = echoWithLength({ length: 1, width: 1 })
+const arr = echoWithLength([1, 2, 3, 4])
+// const number = echoWithLength(1)  类型“number”的参数不能赋给类型“IWithLenght”的参数
