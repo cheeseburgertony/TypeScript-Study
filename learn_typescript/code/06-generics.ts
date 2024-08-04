@@ -42,3 +42,51 @@ const str = echoWithLength('string')
 const obj = echoWithLength({ length: 1, width: 1 })
 const arr = echoWithLength([1, 2, 3, 4])
 // const number = echoWithLength(1)  类型“number”的参数不能赋给类型“IWithLenght”的参数
+
+
+// 在类中使用泛型
+class Queue<T> {
+  private data: T[] = [];
+  push(item: T) {
+    return this.data.push(item)
+  }
+  pop(): T | undefined {
+    return this.data.shift()
+  }
+}
+// 在实例化创建对象的时候传入类型进行类型定义 这样可以保证不会将不符合条件的类型的数据传入
+const queue = new Queue<number>()
+queue.push(123)
+// queue.push('string')
+console.log(queue.pop()?.toFixed());
+
+const queue2 = new Queue<string>()
+queue2.push('string')
+// 并且在使用相对应的类型时还有对应的提示
+console.log(queue2.pop()?.length);
+
+// 在接口中使用泛型(让接口interface更加灵活)
+interface KeyPair<T, U> {
+  key: T;
+  value: U
+}
+// 这样使得interface更加灵活,里面的数据类型不是一开始就写死的,可以更加自己的需求闯入对应的数据类型
+let kp1: KeyPair<string, number> = { key: 'sting', value: 1 }
+let kp2: KeyPair<number, string> = { key: 1, value: 'string' }
+
+// 类似的像Array这个ts原始定义好的接口,只要我们在泛型中传递指定的类型即可,就可以使用同种类型的数据
+let arr1: number[] = [1, 2, 3, 4]
+let arr2: Array<number> = [1, 2, 3, 4]
+
+// interface还能描述一个函数的类型 这里配合泛型一起使用,更加灵活
+interface IPlus<T> {
+  (a: T, b: T): T
+}
+const plus = (a: number, b: number) => {
+  return a + b
+}
+const conect = (a: string, b: string) => {
+  return a + b
+}
+const a: IPlus<number> = plus
+const b: IPlus<string> = conect
